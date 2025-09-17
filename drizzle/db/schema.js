@@ -1,8 +1,9 @@
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-export const usersTable = sqliteTable("users_table", {
+export const usersTable = sqliteTable("products", {
   id: int().primaryKey({ autoIncrement: true }),
   name: text().notNull(),
-  age: int().notNull(),
-  email: text().notNull().unique(),
+  quantity: int().notNull(),
+  price: text().notNull(),
+  category: text().notNull()  // se puede crear un modelo independiente
 });
