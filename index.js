@@ -6,12 +6,6 @@ import { usersTable } from "./drizzle/db/schema.js"
 export const db = drizzle(process.env.DB_FILE_NAME)
 
 async function main() {
-  const user = {
-    name: "Jhon",
-    age: 30,
-    email: 'JhonDoe@gmail.com'
-  }
-
   const products = [
     {
       name: "Cereal kellogs",
@@ -34,11 +28,23 @@ async function main() {
   // generar nuevos registros en base de datos
   products.map(async (product) => await db.insert(usersTable).values(product))
   console.log('new product recorded!!!')
-
-
+  
   //consultar registros en base de datos
   const productRecords = await db.select().from(usersTable)
   productRecords.map((productRecord) => console.log(productRecord))
+
+  const idProduct = await db.select().from(usersTable).where(eq(usersTable.name, "Pasta de dientes Colgate"))
+  console.log(idProduct[0].id)
+  //actualizacion de un resgistro en la base de datos
+
+  const updateProduct = {
+    name: "fortident",
+    quantity: 2,
+    price: `${4 * 3500}`,
+    category: "Aseo"
+  }
+
+  await db.update(usersTable).set(updateProduct).where(eq(usersTable.id, idProduct[0].id))
 
   /*
   await db
