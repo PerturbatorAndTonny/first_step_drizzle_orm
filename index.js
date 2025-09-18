@@ -28,15 +28,16 @@ async function main() {
   // generar nuevos registros en base de datos
   products.map(async (product) => await db.insert(usersTable).values(product))
   console.log('new product recorded!!!')
-  
+
   //consultar registros en base de datos
   const productRecords = await db.select().from(usersTable)
   productRecords.map((productRecord) => console.log(productRecord))
 
   const idProduct = await db.select().from(usersTable).where(eq(usersTable.name, "Pasta de dientes Colgate"))
   console.log(idProduct[0].id)
-  //actualizacion de un resgistro en la base de datos
 
+
+  //actualizacion de un resgistro en la base de datos
   const updateProduct = {
     name: "fortident",
     quantity: 2,
@@ -44,19 +45,16 @@ async function main() {
     category: "Aseo"
   }
 
+  /*
   await db.update(usersTable).set(updateProduct).where(eq(usersTable.id, idProduct[0].id))
 
-  /*
-  await db
-    .update(usersTable)
-    .set({
-      age: 31,
-    })
-    .where(eq(usersTable.email, user.email));
-  console.log('User info updated!')
-  await db.delete(usersTable).where(eq(usersTable.email, user.email));
-  console.log('User deleted!')
+  // delete de un registro
   */
+
+  const idProductUpdated = await db.select().from(usersTable).where(eq(usersTable.name, "fortident"))
+  const deletedProduct = await db.delete(usersTable).where(eq(usersTable.id, idProductUpdated[0].id)).returning()
+  console.log("Producto eliminado: ", deletedProduct)
+
 }
 
 main()
