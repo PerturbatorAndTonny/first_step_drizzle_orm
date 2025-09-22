@@ -45,11 +45,9 @@ async function main() {
     category: "Aseo"
   }
 
-  /*
   await db.update(usersTable).set(updateProduct).where(eq(usersTable.id, idProduct[0].id))
 
   // delete de un registro
-  */
 
   const idProductUpdated = await db.select().from(usersTable).where(eq(usersTable.name, "fortident"))
   const deletedProduct = await db.delete(usersTable).where(eq(usersTable.id, idProductUpdated[0].id)).returning()
